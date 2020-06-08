@@ -24,11 +24,10 @@ module counter(
 	input enable,
 	input direction,
 	input clk,
-	output [7:0] counter_out
+	output reg [7:0] counter_out
     );
                     
     //Todo: add registers and wires, if needed
-	reg [7:0] counter_out;
 
     //Todo: add user logic
 	always @ (posedge clk) begin
@@ -36,9 +35,7 @@ module counter(
 			counter_out <= 8'b00000000;
 		end
 		else begin
-			if (enable) begin
-				counter_out <= (direction) ? (counter_out + 1): (counter_out - 1);
-			end	
+			counter_out <= (enable == 0) ? counter_out : (direction) ? (counter_out + 1): (counter_out - 1);
 		end
 
 	end

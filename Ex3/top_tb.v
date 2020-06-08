@@ -35,7 +35,7 @@ module top_tb(
 
 //Todo: User logic
 	initial begin
-       //counter_out=0;
+       assign counter_out= 8'b00000000;
        counter_out_prev=counter_out;
        err=0;
        direction=1;
@@ -65,6 +65,7 @@ if ((!enable&(counter_out!=counter_out_prev))| (enable&(counter_out==counter_out
            $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, enable='%d' ***",counter_out,counter_out_prev,enable);
 		 end
 	 counter_out_prev=counter_out;
+		if (counter_out == 8'b00000001)
          enable = !enable;
          if (counter_out==8'b11111111)
            direction=!direction;
