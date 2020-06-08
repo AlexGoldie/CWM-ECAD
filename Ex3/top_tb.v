@@ -35,7 +35,7 @@ module top_tb(
 
 //Todo: User logic
 	initial begin
-       assign counter_out= 8'b00000000;
+       
        counter_out_prev=counter_out;
        err=0;
        direction=1;
