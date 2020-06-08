@@ -31,52 +31,56 @@ module top_tb(
        clk = 1'b0;
        forever
          #(CLK_PERIOD/2) clk=!clk;
-    end
+end
 
 //Todo: User logic
 	initial begin
-       
-       counter_out_prev=counter_out;
        err=0;
        direction=1;
-	   rst = 0;
+	rst = 1;
        clk = 0;
 	   enable = 1;
-       #6
+	#10
+	rst = 0;
        forever begin
-         #(CLK_PERIOD-6)
-	 if (counter_out != counter_out_prev)
-         begin
-           $display("***TEST FAILED! did not maintain 5 ticks gap! counter=%d, counter_prev=%d ***",counter_out, counter_out_prev);
-           err=1;
-         end
-         #6
-	 if ((direction&(counter_out!=(counter_out_prev+1)))| (!direction&(counter_out!=(counter_out_prev-1))))
+	
+       #10
+
+	 if ((direction&(counter_out!=(counter_out_prev+1)))| (!direction&(counter_out!=(counter_out_prev-1))) & (enable))
         begin
            $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d' ***",counter_out,counter_out_prev,direction);
            err=1;
          end
+
+
 if (rst&(counter_out!=0))
          begin
            $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, reset='%d' ***",counter_out,counter_out_prev,rst);
+	err = 1;
 		 end
+
+
 if ((!enable&(counter_out!=counter_out_prev))| (enable&(counter_out==counter_out_prev)))
          begin
            $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, enable='%d' ***",counter_out,counter_out_prev,enable);
+	err = 1;
 		 end
+
 	 counter_out_prev=counter_out;
 		if (counter_out == 8'b00000001)
          enable = !enable;
          if (counter_out==8'b11111111)
-           direction=!direction;
-		if ((direction == 0) & (counter_out == 8'b11111100))
-			rst = !rst;
+           direction=0;
+	if ((direction == 0) & (counter_out == 8'b11111100))
+		rst = 1;
+	if (counter_out == 0)
+		rst = 0;
        end
-	end
+end
 
 //Todo: Finish test, check for success
       initial begin
-        #2620 
+        #5240 
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;
