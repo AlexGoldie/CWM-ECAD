@@ -19,11 +19,11 @@ module top_tb(
 //Todo: Regitsers and wires
     reg clk;
     reg rst;
-	reg direction;
-	reg enable;
+    reg direction;
+    reg enable;
     reg err;
     wire [7:0] counter_out;
-	reg [7:0] counter_out_prev;
+    reg [7:0] counter_out_prev;
 
 //Todo: Clock generation
     initial
@@ -46,9 +46,9 @@ end
 	
        #10
 
-	 if ((direction&(counter_out!=(counter_out_prev+1)))| (!direction&(counter_out!=(counter_out_prev-1))) & (enable))
+	 if ((direction&(counter_out!=(counter_out_prev+1)))| (!direction&(counter_out!=(counter_out_prev-1))))
         begin
-           $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d' ***",counter_out,counter_out_prev,direction);
+           $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d', enable ='%d' ***",counter_out,counter_out_prev,direction,enable);
            err=1;
          end
 
@@ -67,8 +67,8 @@ if ((!enable&(counter_out!=counter_out_prev))| (enable&(counter_out==counter_out
 		 end
 
 	 counter_out_prev=counter_out;
-		if (counter_out == 8'b00000001)
-         enable = !enable;
+	if (counter_out == 8'b00000001)
+         enable = 1;
          if (counter_out==8'b11111111)
            direction=0;
 	if ((direction == 0) & (counter_out == 8'b11111100))
