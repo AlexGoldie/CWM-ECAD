@@ -23,14 +23,20 @@ module dice(
     input clk,
     input rst,
     input button,
-    output reg [2:0] throw]
+    output reg [2:0] throw
     );
 
     always @(posedge clk) begin
-        if ((throw == 3'b000) | (throw == 3'b111))
+		if (rst)
+			throw <= 3'b000;
+		else begin
+		if ((throw == 3'b000) | (throw == 3'b111))
             throw <= 3'b001;
-        else 
-		throw <= button ? (throw + 1) : throw;
+        if (throw < 3'b110)
+			throw <= throw + button;
+		else
+			throw <= button ? 3'b001 : throw;
+		end
 	end
 
 endmodule
