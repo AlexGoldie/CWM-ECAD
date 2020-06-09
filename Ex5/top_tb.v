@@ -35,6 +35,7 @@ module top_tb(
  //Todo: User logic
 	initial begin
        	err=0;
+		#10
        	rag_prev=rag;
     	clk = 0;
        forever begin
