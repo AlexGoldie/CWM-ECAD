@@ -46,9 +46,9 @@ end
 	
        #10
 
-	 if ((((direction==1)&(counter_out!=(counter_out_prev+1)))| ((direction==0)&(counter_out!=(counter_out_prev-1))))&enable)
+	 if ((((direction==1)&(counter_out!=(counter_out_prev+1)))| ((direction==0)&(counter_out!=(counter_out_prev-1))))&enable&(!rst))
         begin
-           $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d', enable ='%d' ***",counter_out,counter_out_prev,direction,enable);
+           $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d', enable ='%d', reset = '%d' ***",counter_out,counter_out_prev,direction,enable,rst);
            err=1;
          end
 
@@ -69,18 +69,22 @@ if ((!enable&(counter_out!=counter_out_prev))| (enable&(counter_out==counter_out
 	 counter_out_prev=counter_out;
 	if (enable == 0)
          enable = 1;
-         if (counter_out==8'b11111111)
+         if (counter_out==8'b00000011)
            direction=0;
-	if ((direction == 0) & (counter_out == 8'b11111100))
+	if ((direction == 0) & (counter_out == 8'b00000001))
 		rst = 1;
 	if (counter_out == 0)
 		rst = 0;
+	if (rst == 1)
+		direction = 1;
+
+
        end
 end
 
 //Todo: Finish test, check for success
       initial begin
-        #5240 
+        #260 
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;
