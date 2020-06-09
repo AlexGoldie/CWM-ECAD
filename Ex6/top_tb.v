@@ -23,40 +23,50 @@ module top_tb(
 	wire [2:0] result;
     reg err;
 	reg button;
+	reg [2:0] throw_prev;
+	reg [2:0] rag_prev;
 
     //Clock generation
     initial
     begin
        clk = 1'b0;
        forever
-         #(CLK_PERIOD/2) clk=~clk;
+         #(CLK_PERIOD/2) clk=!clk;
      end
     
  //Todo: User logic
 	initial begin
        	err=0; 
-		rst = 0;
+		rst = 1;
 		sel = 0;
 		button = 1;
 		#10
-    	clk = 0;
+		rst = 0;
        forever begin
        #10
-		if ((sel == 0) & (result != throw))
+		if ((sel == 0) & (result != throw_prev))
 		begin
 		
            $display("***TEST FAILED! Should have shown throw! sel==%d, throw==%d, result==%d***", sel,throw, result);
            err=1;
 		end
 		
-		if ((sel == 1) & (result != rag))
+		if ((sel == 1) & (result != rag_prev))
 		begin
 		
            $display("***TEST FAILED! Should have shown rag! sel==%d, rag==%d, result==%d***", sel,rag, result);
            err=1;
 		end
-		
-		sel = !sel;
+		throw_prev = throw;
+		rag_prev = rag;
+end
+end
+
+initial begin
+#5
+forever begin
+#20
+sel = !sel;
 end
 end
 

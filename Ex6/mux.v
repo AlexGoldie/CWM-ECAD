@@ -32,7 +32,7 @@ module mux(
  
     //Todo: define your logic here                 
     always @ (posedge clk) begin
-	out = (sel && b) || (!sel && a);
+	out = sel ? b : a;
     end
 	
       
