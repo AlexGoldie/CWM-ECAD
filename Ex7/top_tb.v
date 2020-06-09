@@ -36,7 +36,7 @@ module top_tb(
        	err=0; 
 		enable = 1;
 		a = 0;
-		b = 1;
+		b = 0;
 
        forever begin
        #10
@@ -55,16 +55,25 @@ module top_tb(
 		end
 
 		enable = !enable;
+		if (a<3'b111)
 		a = a+1;
-		b = b+1;
+		else
+		a = 0
 
+end
+end
+
+initial begin
+forever begin
+#80
+b = b+1
 end
 end
 
 
 //Todo: Finish test, check for success
       initial begin
-        #60
+        #640
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;

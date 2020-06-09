@@ -22,17 +22,15 @@ module times_table (
 	output reg [5:0] result
 	);
 
-always @ (posedge clk) begin
-	result <= enable ? (a * b) : 0;
-end
+wire [5:0] address = {a,b}
 
-mybram ipinstance (
-  .clka(clka),    // input wire clka
-  .ena(ena),      // input wire ena
+multiply_bram multiply_ip (
+  .clka(clk),    // input wire clka
+  .ena(enable),      // input wire ena
   .wea(wea),      // input wire [0 : 0] wea
-  .addra(addra),  // input wire [3 : 0] addra
-  .dina(dina),    // input wire [15 : 0] dina
-  .douta(douta)  // output wire [15 : 0] douta
+  .addra(addra),  // input wire [5 : 0] addra
+  .dina(dina),    // input wire [5 : 0] dina
+  .douta(douta)  // output wire [5 : 0] douta
 );
 
 endmodule
