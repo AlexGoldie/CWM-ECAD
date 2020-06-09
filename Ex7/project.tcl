@@ -20,6 +20,8 @@ create_fileset -constrset -quiet constraints
 #set_property is_enabled false [get_files ${project_constraints}]
 
 #Todo: Add your IP here
+create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name mybram
+set_property -dict [list CONFIG.Component_Name {mybram}] [get_ips mybram]
 
 read_verilog "top.v"
 read_verilog "top_tb.v"
