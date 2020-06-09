@@ -39,14 +39,14 @@ end
        direction=1;
 	rst = 1;
        clk = 0;
-	   enable = 1;
+	   enable = 0;
 	#10
 	rst = 0;
        forever begin
 	
        #10
 
-	 if ((direction&(counter_out!=(counter_out_prev+1)))| (!direction&(counter_out!=(counter_out_prev-1))))
+	 if ((((direction==1)&(counter_out!=(counter_out_prev+1)))| ((direction==0)&(counter_out!=(counter_out_prev-1))))&enable)
         begin
            $display("***TEST FAILED! counter_out==%d, counter_out_prev==%d, direction='%d', enable ='%d' ***",counter_out,counter_out_prev,direction,enable);
            err=1;
@@ -67,7 +67,7 @@ if ((!enable&(counter_out!=counter_out_prev))| (enable&(counter_out==counter_out
 		 end
 
 	 counter_out_prev=counter_out;
-	if (counter_out == 8'b00000001)
+	if (enable == 0)
          enable = 1;
          if (counter_out==8'b11111111)
            direction=0;
