@@ -21,7 +21,7 @@ create_fileset -constrset -quiet constraints
 
 #Todo: Add your IP here
 create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name multiply_bram
-set_property -dict [list CONFIG.Component_Name {multiply_bram} CONFIG.Write_Width_A {6} CONFIG.Write_Depth_A {64} CONFIG.Read_Width_A {6} CONFIG.Write_Width_B {6} CONFIG.Read_Width_B {6} CONFIG.Load_Init_File {true} CONFIG.Coe_File {/home/centos/CWM-ECAD/Ex7/Ex7.srcs/sources_1/ip/multiply_ip_coe.coe} CONFIG.Fill_Remaining_Memory_Locations {false}] [get_ips multiply_bram]
+set_property -dict [list CONFIG.Component_Name {multiply_bram} CONFIG.Write_Width_A {6} CONFIG.Write_Depth_A {64} CONFIG.Read_Width_A {6} CONFIG.Write_Width_B {6} CONFIG.Read_Width_B {6} CONFIG.Load_Init_File {true} CONFIG.Coe_File {/home/centos/CWM-ECAD/Ex7/multiply_ip_coe.coe} CONFIG.Fill_Remaining_Memory_Locations {false}] [get_ips multiply_bram]
 read_verilog "top.v"
 read_verilog "top_tb.v"
 
@@ -40,4 +40,4 @@ set_property top_lib xil_defaultlib [get_filesets sim_1]
 update_compile_order -fileset sim_1
 
 launch_simulation
-run 600ns
+run 1950ns

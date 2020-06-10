@@ -22,6 +22,7 @@ module top_tb(
 	reg enable;
 	wire [5:0] result;
 	reg err;
+	reg [5:0] result_prev;
 
     //Clock generation
     initial
@@ -37,10 +38,12 @@ module top_tb(
 		enable = 1;
 		a = 0;
 		b = 0;
+		#20
+		result_prev = result;
 
        forever begin
-       #10
-		if ((enable == 0) & (result != 0) & (a!=0) & (b!=0))
+       #20
+		if ((enable == 0) & (result != result_prev))
 		begin
 		
            $display("***TEST FAILED! Enable didnt work! enable==%d, result==%d***", enable, result);
@@ -54,26 +57,32 @@ module top_tb(
            err=1;
 		end
 
+		if (a == 3'b010 & b == 3'b010)
 		enable = !enable;
+		if (a == 3'b011 & b == 3'b010)
+		enable = 1;
+
 		if (a<3'b111)
 		a = a+1;
 		else
-		a = 0
+		a = 0;
 
+		result_prev = result;
 end
 end
 
 initial begin
+#24
 forever begin
-#80
-b = b+1
+#160
+b = b+1;
 end
 end
 
 
 //Todo: Finish test, check for success
       initial begin
-        #640
+        #1950
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;

@@ -19,18 +19,17 @@ module times_table (
 	input [2:0] a,
 	input [2:0] b,
 	input enable,
-	output reg [5:0] result
+	output wire [5:0] result
 	);
 
-wire [5:0] address = {a,b}
 
 multiply_bram multiply_ip (
   .clka(clk),    // input wire clka
   .ena(enable),      // input wire ena
-  .wea(wea),      // input wire [0 : 0] wea
-  .addra(addra),  // input wire [5 : 0] addra
-  .dina(dina),    // input wire [5 : 0] dina
-  .douta(douta)  // output wire [5 : 0] douta
+  .wea(0),      // input wire [0 : 0] wea
+  .addra({a,b}),  // input wire [5 : 0] addra
+  .dina(0),    // input wire [5 : 0] dina
+  .douta(result)  // output wire [5 : 0] douta
 );
 
 endmodule
