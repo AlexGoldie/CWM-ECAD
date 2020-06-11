@@ -15,14 +15,14 @@
 
 
 module top(
-    input clk_p,
     input clk_n,
      //Todo: add all other ports besides clk_n and clk_p 
 	input clk_p,
 	input button,
-	output led_0,
-	output led_1,
-	output led_2
+	input rst_n,
+	output reg led_0,
+	output reg led_1,
+	output reg led_2
    );
     
 
@@ -44,25 +44,29 @@ module top(
 
 //Add logic here
 	
-	reg [20:0] i;
+	reg [22:0] i;
 
 always @(posedge clk) begin
 
-	if ((rst == 0) | (button == 1'b1)) begin
+	if ((rst_n == 0) | (button == 1'b1)) begin
 		led_0 = 0;
 		led_1 = 0;
 		led_2 = 0;
 		i = 0;
 	end
 	else begin
-		if (i == 21'b111111111111111111111) begin
-			i = 0;
+		if (i == 21'b111111111111111111111) 
 			led_0 = !led_0;
+
+		if (i == 22'b1111111111111111111111) 
 			led_1 = !led_1;
+
+		if (i == 23'b11111111111111111111111) begin
 			led_2 = !led_2;
+			i = 0;
 		end
 		else
-		i = i + 1;
+			i = i + 1;
 	end
 
 end
