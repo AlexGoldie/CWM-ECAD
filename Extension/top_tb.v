@@ -17,8 +17,8 @@ module top_tb(
     reg clk;
 	reg [6:0] temp;
 	wire [6:0] speed;
-	//reg enable_temp;
-	//reg enable_speed;
+	reg enable_temp;
+	reg enable_speed;
 	reg [2:0] throttle;
 	reg [3:0] brake;
 	wire [6:0] fail_prob;
@@ -47,8 +47,8 @@ initial begin
 	clk = 0;
 	temp = 0;
 	rst = 1;
-	//enable_temp = 1;
-	//enable_speed = 1;
+	enable_temp = 1;
+	enable_speed = 1;
 	dist = 0;
 	err = 0;
 	x_co_ord = 0;
@@ -103,7 +103,7 @@ forever begin
 	if ((rst == 0) & (dist > (stopping_dist_prev +10)) & (!((speed == speed_prev + 1) | (speed == speed_lim_prev))) & (fail_prob_prev < 10) & (throttle == 0) & (brake == 0))
 		begin
 		
-           $display("***TEST FAILED! stopping distance didnt work! dist==%d, stopping_distance_prev == %d, speed ==%d, speed_prev==%d***", dist, stopping_dist_prev, speed, speed_prev);
+           $display("***TEST FAILED! stopping distance didnt work! dist==%d, stopping_distance_prev == %d, speed ==%d, speed_prev==%d***, speed_lim_prev == %d", dist, stopping_dist_prev, speed, speed_prev,speed_lim_prev);
            err=1;
 		end
 
@@ -183,14 +183,14 @@ end
   	.douta(speed_lim)  // output wire [6 : 0] douta
 	);
 
-	check check (
-	.clk(clk),
-	.temp(temp),
+	/*check check (
+	.clk (clk),
+	.temp (temp),
 	.speed (speed),
 	.enable_temp (enable_temp),
 	.enable_speed (enable_speed),
-	.fail_prob(fail_prob),
+	.fail_prob (fail_prob),
 	.stopping_distance (stopping_distance)
-	);
+	);*/
 
 endmodule 
