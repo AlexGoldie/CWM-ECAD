@@ -26,6 +26,13 @@ set_property -dict [list CONFIG.Component_Name {fail_prob_mem} CONFIG.Write_Widt
 create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name stopping_distance_mem
 set_property -dict [list CONFIG.Component_Name {stopping_distance_mem} CONFIG.Write_Width_A {9} CONFIG.Write_Depth_A {128} CONFIG.Read_Width_A {9} CONFIG.Write_Width_B {9} CONFIG.Read_Width_B {9} CONFIG.Load_Init_File {true} CONFIG.Coe_File {/home/centos/CWM-ECAD/Extension/stopping_distance.coe}] [get_ips stopping_distance_mem]
 
+create_ip -name blk_mem_gen -vendor xilinx.com -library ip -version 8.4 -module_name speed_limit_mem
+set_property -dict [list CONFIG.Component_Name {speed_limit_mem} CONFIG.Write_Width_A {7} CONFIG.Read_Width_A {7} CONFIG.Write_Width_B {7} CONFIG.Read_Width_B {7} CONFIG.Load_Init_File {true} CONFIG.Coe_File {/home/centos/CWM-ECAD/Extension/speed_limit.coe}] [get_ips speed_limit_mem]
+
+create_ip -name speed_uartlite -vendor xilinx.com -library ip -version 2.0 -module_name speed_uartlite
+set_property -dict [list CONFIG.C_DATA_BITS {7}] [get_ips speed_uartlite]
+
+
 read_verilog "fail_prob.v"
 read_verilog "stopping_distance.v"
 
@@ -49,4 +56,4 @@ set_property top_lib xil_defaultlib [get_filesets sim_1]
 update_compile_order -fileset sim_1
 
 launch_simulation
-run 16000ns
+run 40000ns

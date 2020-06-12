@@ -1,0 +1,8 @@
+memory_initialization_radix=10;
+memory_initialization_vector=
+ 50,  40,  50,  20,
+ 20,  70,  60,  30,
+ 30,  40,  50,  40,
+ 60,  70,  20,  50;
+
+
